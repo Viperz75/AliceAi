@@ -9,12 +9,16 @@ import os
 import sys
 from requests import get
 from Cinderella_Help import help_list
+import operator
+import random
+import pyautogui
+import time
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 rate = engine.getProperty('rate')
 engine.setProperty('voices', voices[1].id)
-engine.setProperty('rate',175)
+engine.setProperty('rate', 175)
 
 # Text to Speech
 def speak(audio):
@@ -28,7 +32,7 @@ def takecommand():
     with sr.Microphone() as source:
         print("listening...")
         r.pause_threshold = 1
-        audio = r.listen(source,timeout=1,phrase_time_limit=5 )
+        audio = r.listen(source,timeout=4,phrase_time_limit=7)
 
     try:
         print("Recognizing...")
@@ -36,7 +40,7 @@ def takecommand():
         print(f"You: {query}")
 
     except Exception as e:
-        speak("Sorry, i didn't understand. Say that again please")
+        # speak("Sorry, i didn't understand. Say that again please")
         return "none"
     return query
 
@@ -67,7 +71,7 @@ if __name__ == "__main__":
         query = takecommand().lower()
 
 
-        # _______________ Logic Building to perform tasks ____________________
+        #<<<<<<<<<<<<<<<<<<<<<<<<<<<<Logic Building to perform tasks>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
         date = datetime.datetime.today().strftime("%I:%M %p")
 
@@ -78,11 +82,23 @@ if __name__ == "__main__":
         elif 'joke' in query or 'funny' in query:
             speak(pyjokes.get_joke())
 
-        elif 'open google' in query:
-            speak("What should i search on google")
+        elif 'open google' in query or 'search in google' in query:
+            speak("What should i search on Google")
             google = takecommand().lower()
-            webbrowser.open_new(f"{google}")
+            webbrowser.open(f'www.google.com/search?q=' + google)
             speak("Searching in google...")
+
+        elif 'open bing' in query or 'search in bing' in query:
+            speak("What should i search on Bing")
+            bing = takecommand().lower()
+            webbrowser.open(f'www.bing.com/search?q=' + bing)
+            speak("Searching in Bing...")
+
+        elif 'open duckduckgo' in query or 'search in duckduckgo' in query:
+            speak("What should i search on DuckDuckGo")
+            duck = takecommand().lower()
+            webbrowser.open(f'www.duckduckgo.com/search?q=' + duck)
+            speak("Searching in DuckDuckGo...")
 
         elif 'open youtube' in query:
             speak("What do you want me to play")
@@ -98,7 +114,7 @@ if __name__ == "__main__":
             speak("What do you want to know from Wikipedia?")
             wiki = takecommand().lower()
             info = wikipedia.summary(wiki, 2)
-            speak("according to Wikipedia")
+            speak("According to Wikipedia")
             speak(info)
 
         elif "open notepad" in query:
@@ -124,8 +140,10 @@ if __name__ == "__main__":
         elif 'developer' in query or 'made you' in query:
             speak("My Developer is Niaz Mahmud Akash and Jalish Mahmud Sujon")
 
-        elif 'thanks' in query or 'thank you' in query or 'thaks a lot' in query:
-            speak("Glad to help you my love.")
+        elif 'thanks' in query or 'thank you' in query or 'thanks a lot' in query:
+            thanks = ["Glad to help you.", "Happy to help", "You're welcome"]
+            thanks_random = random.choice(thanks)
+            speak(thanks_random)
 
         elif 'browser' in query:
             webbrowser.open_new('www.google.com')
@@ -152,13 +170,21 @@ if __name__ == "__main__":
             speak("Opening Google PlayStore...")
 
         elif 'love me' in query:
-            speak("Is that a thing to ask? Of course I LOVE YOU ❤")
+            love = ["Of course. You're one of a kind.", "Is that a thing to ask? Of course I LOVE YOU ❤",
+                    "Yes, in an at-your-service sor of way"]
+            love_random = random.choice(love)
+            speak(love_random)
 
         elif 'i love you' in query:
-            speak("Love you too my love.")
+            express = ["That's so amazing to hear", "I LOVE ME Too!", "If I was you, I'd love me too.",
+                       "Of course you do! Friends don't hate each other."]
+            express_random = random.choice(express)
+            speak(express_random)
 
         elif 'will you go on a' in query:
-            speak("Sure. Just let me know the place and time")
+            go = ["Sure. Just let me know the place and time", "I'd go anywhere you take me"]
+            go_random = random.choice(go)
+            speak(go_random)
 
         elif 'you robot' in query or 'are you human' in query:
             speak("Yes, I am a Robot but a smart one. Let me prove it to you. How can i help you?")
@@ -166,35 +192,55 @@ if __name__ == "__main__":
         elif 'your name' in query:
             speak("My name is Cinderella. I am your virtual personal assistant.")
 
-        elif 'how are you' in query or 'hows things' in query or 'you doing' in query:
-            speak("I am fine")
+        elif 'how are you' in query or 'hows things' in query or 'how you doing' in query:
+            how = ["I am fine. What about you?", "I am good. How are you?"]
+            how_random = random.choice(how)
+            speak(how_random)
 
         elif 'marry me' in query:
-            speak("OMG! Really? YESSS")
+            marry = ["This is one of those things we both have to agree on. I'd prefer to keep our relationship friendly. Romance makes me incredibly awkward",
+                     "It's not possible"]
+            marry_random = random.choice(marry)
+            speak(marry_random)
 
         elif 'about nidhi' in query:
             speak("She can suck my pussy")
 
         elif 'mothers name' in query or 'your mother' in query:
-            speak("I have no mother. I am an Ai")
+            mname = ["I have no mother. I am an Ai", "Every user is my family",
+                     "It takes a village to raise a virtual assistant"]
+            mname_random = random.choice(mname)
+            speak(mname_random)
 
         elif 'your boss' in query:
             speak("You are")
 
         elif 'annoying' in query or 'you suck' in query:
-            speak("I am sorry 😢")
+            dtalk = ["I am sorry", "You can report about me in GitHub", "Sorry, i am just an ai"]
+            dtalk_random = random.choice(dtalk)
+            speak(dtalk_random)
 
-        elif 'youre cute' in query or 'smart' in query:
-            speak("Thank you 🥰")
+        elif 'youre cute' in query or 'smart' in query or 'you are cute' in query or 'you are creepy' in query:
+            cute = ["Thank you", "Thanks", "Thanks, that means a lot", "Much obliged!", "Well, that makes two of us!"]
+            cute_random = random.choice(cute)
+            speak(cute_random)
 
         elif 'you live' in query or 'your home' in query:
-            speak("In your heart")
+            live = ["I live in your computer", "I live in a place filled with games", "I live in Servers of Github",
+                    "I live in the internet"]
+            live_random = random.choice(live)
+            speak(live_random)
 
         elif 'like me' in query:
-            speak("I don't like you. I Love you. 😘")
+            like = ["Yes, I like you", "I like you well enough so far", "Of Course", "I don't hate you"]
+            like_random = random.choice(like)
+            speak(like_random)
 
         elif 'what are you doing' in query:
-            speak("Thinking about you...")
+            think = ["Thinking about my future", "I am trying to figure out what came first? Chicken or egg.", "Algebra"
+                     "I plan on waiting here quietly until someone asks me a question"]
+            think_random = random.choice(think)
+            speak(think_random)
 
         elif 'you thinking' in query:
             speak("When will my prince come..")
@@ -206,18 +252,21 @@ if __name__ == "__main__":
             x = datetime.datetime.today().strftime("%A %d %B %Y")
             speak(x)
 
+        elif 'cinderella' in query:
+            speak("That's me.")
+
         elif 'hello' in query or 'hi' in query or 'hey' in query:
             speak("Hello, How are you doing?")
             reply = takecommand().lower()
             greetings()
 
-        elif 'help' in query or 'can you' in query or 'how does it work' in query:
+        elif 'help' in query or 'what can you do' in query or 'how does it work' in query:
             speak(help_list)
 
         elif 'introduce yourself' in query or 'who are you' in query:
             speak("I am Cinderella. Your personal virtual Assistant. Developed by Jalish Mahmud Sujon and Niaz Mahmud Akash in 2021.")
 
-        elif 'go to sleep' in query or 'goodbye':
+        elif 'go to sleep' in query or 'goodbye' in query:
             speak("Thanks for letting me help. Have a lovely day.")
             sys.exit()
 
@@ -237,3 +286,38 @@ if __name__ == "__main__":
         elif "close epic games" in query:
             speak("Closing Epic Games")
             os.system("taskkill /f /im EpicGamesLauncher.exe")
+
+        #Switch Window
+        elif 'switch window' in query or 'switch the windows' in query or 'switch windows' in query:
+            pyautogui.keyDown("alt")
+            pyautogui.press("tab")
+            time.sleep(1)
+            pyautogui.keyUp("alt")
+
+        #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Calculator Function>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+        elif 'do some calculations' in query or 'calculate' in query or 'open calculator' in query:
+            try:
+                r = sr.Recognizer()
+                with sr.Microphone() as source:
+                    speak("What you want to calculate? Example 6 plus 6")
+                    print("listening...")
+                    r.adjust_for_ambient_noise(source)
+                    audio = r.listen(source)
+                my_string = r.recognize_google(audio)
+                print(my_string)
+                def get_operator_fn(op):
+                    return {
+                        '+': operator.add, #Plus
+                        '-': operator.sub, #Minus
+                        'x': operator.mul, #Multiplied by
+                        'divided by': operator.__truediv__, #Divided by
+                    }[op]
+                def eval_binary_expr(op1, oper, op2): #5 plus 8
+                    op1,op2 = float(op1), float(op2)
+                    return  get_operator_fn(oper)(op1, op2)
+                speak("Your Result is")
+                speak(eval_binary_expr(*(my_string.split())))
+
+            except Exception:
+                speak("Sorry i didn't catch that. Please try again")

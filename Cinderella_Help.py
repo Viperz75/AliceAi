@@ -1,1 +1,1 @@
-help_list = 'You can ask me these things, such as', 'Time , Joke, Open browser, Open Youtube, Open Facebook, Open or Close applications, Search in Wikipedia, Play videos in Youtube, Search in Google'
+help_list = 'You can ask me these things, such as', 'Time , I can calculate, Joke, Open browser, Open Youtube, Open Facebook, Open or Close applications, Search in Wikipedia, Play videos in Youtube, Search in Google'
