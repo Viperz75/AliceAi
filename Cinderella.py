@@ -13,12 +13,14 @@ import operator
 import random
 import pyautogui
 import time
+import requests
+from bs4 import BeautifulSoup
+from pywikihow import search_wikihow
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
-rate = engine.getProperty('rate')
 engine.setProperty('voices', voices[1].id)
-engine.setProperty('rate', 175)
+engine.setProperty('rate', 180)
 
 # Text to Speech
 def speak(audio):
@@ -32,24 +34,26 @@ def takecommand():
     with sr.Microphone() as source:
         print("listening...")
         r.pause_threshold = 1
-        audio = r.listen(source,timeout=4,phrase_time_limit=7)
+        audio = r.listen(source,timeout=5,phrase_time_limit=7)
 
     try:
         print("Recognizing...")
         query = r.recognize_google(audio, language='en-in')
         print(f"You: {query}")
 
-    except Exception as e:
+    except: # Exception as e
         # speak("Sorry, i didn't understand. Say that again please")
         return "none"
     return query
 
-#Little Chitchat
-def greetings():
-    if 'great' in reply or 'good' in reply or 'excellent' in reply:
-        speak("That's great to hear from you.")
-    elif 'not good' in reply or 'bad' in reply or 'terrible' in reply:
-        speak("I am sorry to hear that. Everything will be okay.")
+# Temperature
+def temperature():
+    search = "temperature"
+    url = f"https://www.google.com/search?q={search}"
+    r = requests.get(url)
+    data = BeautifulSoup(r.text,"html.parser")
+    temp = data.find("div",class_="BNeawe").text
+    speak(f"current {search} is {temp} outside")
 
 # Wish_Function
 def wish():
@@ -61,9 +65,9 @@ def wish():
         speak("Good afternoon")
     else:
         speak("Good evening")
-    speak("Hello, I am Cinderella. I am your personal Assistant")
+    speak("Hello, I am Cinderella. How may i help you?")
 
-if __name__ == "__main__":
+def TaskExecution():
     wish()
     while True:
     # if 1:
@@ -77,7 +81,6 @@ if __name__ == "__main__":
 
         if "time now" in query:
             speak("The time is now "+ date +"")
-            # print("The time is now " + date + "")
 
         elif 'joke' in query or 'funny' in query:
             speak(pyjokes.get_joke())
@@ -236,14 +239,11 @@ if __name__ == "__main__":
             like_random = random.choice(like)
             speak(like_random)
 
-        elif 'what are you doing' in query:
+        elif 'what are you doing' in query or 'thinking' in query:
             think = ["Thinking about my future", "I am trying to figure out what came first? Chicken or egg.", "Algebra"
                      "I plan on waiting here quietly until someone asks me a question"]
             think_random = random.choice(think)
             speak(think_random)
-
-        elif 'you thinking' in query:
-            speak("When will my prince come..")
 
         elif 'about me' in query:
             speak("You're Intelligent and ambitious")
@@ -255,10 +255,36 @@ if __name__ == "__main__":
         elif 'cinderella' in query:
             speak("That's me.")
 
+        # How to Do Mode
+        elif 'activate how to' in query:
+            speak("How to mode is activated.")
+            while True:
+                speak("Please tell me what do you want to know?")
+                how = takecommand()
+                try:
+                    if 'exit' in how or 'close' in how:
+                        speak("How to do mode is closed")
+                        break
+                    else:
+                        max_results = 1
+                        how_to = search_wikihow(how, max_results)
+                        assert len(how_to) == 1
+                        how_to[0].print()
+                        speak(how_to[0].summary)
+                except Exception as e:
+                    speak("Sorry. I am not able to find this")
+
+        elif 'temperature' in query or 'weather' in query:
+            temperature()
+
+        # Little Chitchat
         elif 'hello' in query or 'hi' in query or 'hey' in query:
             speak("Hello, How are you doing?")
             reply = takecommand().lower()
-            greetings()
+            if 'great' in reply or 'good' in reply or 'excellent' in reply:
+                speak("That's great to hear from you.")
+            elif 'not good' in reply or 'bad' in reply or 'terrible' in reply:
+                speak("I am sorry to hear that. Everything will be okay.")
 
         elif 'help' in query or 'what can you do' in query or 'how does it work' in query:
             speak(help_list)
@@ -266,9 +292,9 @@ if __name__ == "__main__":
         elif 'introduce yourself' in query or 'who are you' in query:
             speak("I am Cinderella. Your personal virtual Assistant. Developed by Jalish Mahmud Sujon and Niaz Mahmud Akash in 2021.")
 
-        elif 'go to sleep' in query or 'goodbye' in query:
-            speak("Thanks for letting me help. Have a lovely day.")
-            sys.exit()
+        elif 'go to sleep' in query:
+            speak("Sleep mode activated. If you need me just say Wake up.")
+            break
 
         # To close Applications
         elif "close notepad" in query:
@@ -321,3 +347,12 @@ if __name__ == "__main__":
 
             except Exception:
                 speak("Sorry i didn't catch that. Please try again")
+
+if __name__ == "__main__":
+    while True:
+        permission = takecommand()
+        if 'wake up' in permission or 'wakeup' in permission:
+            TaskExecution()
+        elif 'goodbye' in permission or 'good bye' in permission:
+            speak("Thanks for letting me help. Have a lovely day.")
+            sys.exit()
