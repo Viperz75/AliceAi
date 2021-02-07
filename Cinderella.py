@@ -8,7 +8,6 @@ import speech_recognition as sr
 import os
 import sys
 from requests import get
-from Cinderella_Help import help_list
 import operator
 import random
 import pyautogui
@@ -34,16 +33,16 @@ def takecommand():
     with sr.Microphone() as source:
         print("listening...")
         r.pause_threshold = 1
-        audio = r.listen(source,timeout=5,phrase_time_limit=7)
-
+        audio = r.listen(source, phrase_time_limit=7)
     try:
         print("Recognizing...")
         query = r.recognize_google(audio, language='en-in')
-        print(f"You: {query}")
+        print(f"You: {query}\n")
 
-    except: # Exception as e
+    except Exception as e:
         # speak("Sorry, i didn't understand. Say that again please")
         return "none"
+    query = query.lower()
     return query
 
 # Temperature
@@ -59,9 +58,9 @@ def temperature():
 def wish():
     hour = int(datetime.datetime.now().hour)
 
-    if hour>=0 and hour<=12:
+    if hour>=0 and hour<12:
         speak("Good Morning")
-    elif hour>12 and hour<18:
+    elif hour>=12 and hour<18:
         speak("Good afternoon")
     else:
         speak("Good evening")
@@ -70,10 +69,7 @@ def wish():
 def TaskExecution():
     wish()
     while True:
-    # if 1:
-
-        query = takecommand().lower()
-
+        query = takecommand()
 
         #<<<<<<<<<<<<<<<<<<<<<<<<<<<<Logic Building to perform tasks>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -127,11 +123,15 @@ def TaskExecution():
         elif "open cmd" in query:
             os.system("start cmd")
 
+        elif 'open task manager' in query:
+            tpath = "C:\\Windows\\system32\\Taskmgr.exe"
+            os.startfile(tpath)
+
         elif "open steam" in query:
             spath = "C:\\Program Files (x86)\\Steam\\steam.exe"
             os.startfile(spath)
 
-        elif "open Epic Games" in query:
+        elif "open epic games" in query:
             epath = "C:\\Program Files (x86)\\Epic Games\\Launcher\\Portal\\Binaries\\Win32\\EpicGamesLauncher.exe"
             os.startfile(epath)
 
@@ -252,9 +252,6 @@ def TaskExecution():
             x = datetime.datetime.today().strftime("%A %d %B %Y")
             speak(x)
 
-        elif 'cinderella' in query:
-            speak("That's me.")
-
         # How to Do Mode
         elif 'activate how to' in query:
             speak("How to mode is activated.")
@@ -281,13 +278,17 @@ def TaskExecution():
         elif 'hello' in query or 'hi' in query or 'hey' in query:
             speak("Hello, How are you doing?")
             reply = takecommand().lower()
-            if 'great' in reply or 'good' in reply or 'excellent' in reply:
+            if 'great' in reply or 'good' in reply or 'excellent' in reply or 'fine' in reply:
                 speak("That's great to hear from you.")
             elif 'not good' in reply or 'bad' in reply or 'terrible' in reply:
                 speak("I am sorry to hear that. Everything will be okay.")
 
         elif 'help' in query or 'what can you do' in query or 'how does it work' in query:
-            speak(help_list)
+            speak('You can ask me these things: Time , I can calculate, Joke, Open browser, Open Youtube, '
+                  'Open Facebook, Open or Close applications, Search in Wikipedia, '
+                  'Play videos in Youtube, Search in Google, Search in Bing, Search in DuckDuckGo, '
+                  'Learn how to make or do something. Activate it by saying "activate how to" and exit by saying "exit", '
+                  'Switch Window, Temperature of you current location')
 
         elif 'introduce yourself' in query or 'who are you' in query:
             speak("I am Cinderella. Your personal virtual Assistant. Developed by Jalish Mahmud Sujon and Niaz Mahmud Akash in 2021.")
@@ -295,6 +296,10 @@ def TaskExecution():
         elif 'go to sleep' in query:
             speak("Sleep mode activated. If you need me just say Wake up.")
             break
+
+        elif 'goodbye' in query:
+            speak("Good bye. Have a Lovely day.")
+            sys.exit()
 
         # To close Applications
         elif "close notepad" in query:
@@ -312,6 +317,10 @@ def TaskExecution():
         elif "close epic games" in query:
             speak("Closing Epic Games")
             os.system("taskkill /f /im EpicGamesLauncher.exe")
+
+        elif 'close task manager' in query:
+            speak("Closing Task Manager")
+            os.system("taskkill /f /im Taskmgr.exe")
 
         #Switch Window
         elif 'switch window' in query or 'switch the windows' in query or 'switch windows' in query:
