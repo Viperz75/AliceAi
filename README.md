@@ -5,7 +5,7 @@
 
 * To exit the program just say "good bye'. It will then exit the program.
 
-`Feature List:`
+`**Feature List:**`
 * Current Time.
 * Current Date
 * Calculator
@@ -16,6 +16,7 @@
 * Open / Close Applications
 * Search in Wikipedia
 * Play videos in Youtube
+* Play News
 * Search in Google
 * Search in Bing
 * Search in DuckDuckGo

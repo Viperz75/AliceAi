@@ -1,24 +1,25 @@
-import wikipedia
 import datetime
-import webbrowser
-import pyjokes
-import pywhatkit
-import pyttsx3
-import speech_recognition as sr
-import os
-import sys
-from requests import get
 import operator
+import os
 import random
-import pyautogui
+import sys
 import time
+import webbrowser
+
+import pyautogui
+import pyjokes
+import pyttsx3
+import pywhatkit
 import requests
+import speech_recognition as sr
+import wikipedia
 from bs4 import BeautifulSoup
 from pywikihow import search_wikihow
+from requests import get
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
-engine.setProperty('voices', voices[1].id)
+engine.setProperty('voice', voices[2].id)
 engine.setProperty('rate', 180)
 
 # Text to Speech
@@ -33,7 +34,7 @@ def takecommand():
     with sr.Microphone() as source:
         print("listening...")
         r.pause_threshold = 1
-        audio = r.listen(source, phrase_time_limit=7)
+        audio = r.listen(source, phrase_time_limit=5)
     try:
         print("Recognizing...")
         query = r.recognize_google(audio, language='en-in')
@@ -44,6 +45,19 @@ def takecommand():
         return "none"
     query = query.lower()
     return query
+
+#News
+def news():
+    main_url = 'http://newsapi.org/v2/top-headlines?sources=google-news&apiKey=7fd4c0e6cfd649e99e7639e90ac8cbab'
+
+    main_page = requests.get(main_url).json()
+    articles = main_page["articles"]
+    head = []
+    day = ["first","second", "third", "fourth", "fifth", "sixth"]
+    for ar in articles:
+        head.append(ar["title"])
+    for i in range(len(day)):
+        speak(f"Today's {day[i]} news is: {head[i]}")
 
 # Temperature
 def temperature():
@@ -172,6 +186,10 @@ def TaskExecution():
             webbrowser.open('https://play.google.com/store/apps')
             speak("Opening Google PlayStore...")
 
+        elif 'open instagram' in query:
+            webbrowser.open('www.instagram.com')
+            speak("Opening Instagram...")
+
         elif 'love me' in query:
             love = ["Of course. You're one of a kind.", "Is that a thing to ask? Of course I LOVE YOU ❤",
                     "Yes, in an at-your-service sor of way"]
@@ -233,6 +251,10 @@ def TaskExecution():
                     "I live in the internet"]
             live_random = random.choice(live)
             speak(live_random)
+
+        elif 'news' in query:
+            speak("Sure. Getting News")
+            news()
 
         elif 'like me' in query:
             like = ["Yes, I like you", "I like you well enough so far", "Of Course", "I don't hate you"]
