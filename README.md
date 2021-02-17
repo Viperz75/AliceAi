@@ -25,7 +25,7 @@
   * Activate it by saying "activate how to" and exit by saying "exit".
     
 * Switch Window
-* Temperature of you current location
+* Temperature of your current location
 * Can take screenshot
 * Can find location
 * Shutdown/Restart your computer
