@@ -6,7 +6,7 @@
 * To exit the program just say "good bye'. It will then exit the program.
 
 `**Feature List:**`
-* Current Time.
+* Current Time
 * Current Date
 * Calculator
 * Joke
@@ -16,6 +16,7 @@
 * Open / Close Applications
 * Search in Wikipedia
 * Play videos in Youtube
+* Interesting Facts
 * Play News
 * Search in Google
 * Search in Bing
@@ -25,3 +26,9 @@
     
 * Switch Window
 * Temperature of you current location
+* Can take screenshot
+* Can find location
+* Shutdown/Restart your computer
+* Horoscope
+* Dictionary
+  * Activate it by saying "open dictionary" and exit by saying "exit".
