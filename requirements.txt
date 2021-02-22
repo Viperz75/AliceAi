@@ -1,0 +1,14 @@
+psutil~=5.8.0
+PyAutoGUI~=0.9.52
+pyjokes~=0.6.0
+pyttsx3~=2.90
+pywhatkit~=3.9
+randfacts~=0.2.8
+SpeechRecognition~=3.8.1
+requests~=2.25.1
+wikipedia~=1.4.0
+PyDictionary~=2.0.1
+bs4~=0.0.1
+beautifulsoup4~=4.9.3
+pywikihow~=0.5.7
+PyAudio~=0.2.11
