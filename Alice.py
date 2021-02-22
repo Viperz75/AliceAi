@@ -5,13 +5,13 @@ import random
 import sys
 import time
 import webbrowser
-import psutil
-import randfacts
 
+import psutil
 import pyautogui
 import pyjokes
 import pyttsx3
 import pywhatkit
+import randfacts
 import requests
 import speech_recognition as sr
 import wikipedia
@@ -343,42 +343,6 @@ def TaskExecution():
             percentage = battery.percent
             speak(f"All Systems are running. Cpu usage is at {cpu} percent. We have {percentage} percent battery.")
 
-        elif 'how' and 'old' and 'i' and 'am' in query or 'my' and 'age' in query:
-            x = datetime.datetime.now().day
-            y = datetime.datetime.now().month
-            z = datetime.datetime.now().year
-            speak("Enter your birth date:")
-            b = int(input(""))
-            speak("Enter your birth month in number:")
-            c = int(input(""))
-            speak("Enter your birth year:")
-            d = int(input(""))
-
-            if z > d:
-                if x < b and y < c:
-                    print(z - d, "Years", c - y, "Months", b - x, "Days")
-                elif x < b and y > c:
-                    print((z - 1) - d, "Years", (c + 12) - y, "Months", b - x, "Days")
-                elif x > b and y > c:
-                    print((z - 1) - 1, "Years", ((c + 12) - 1) - y, "Months", (b + 30) - x, "Days")
-                elif x > b and y < c:
-                    print(z - d, "Years", (c - 1) - y, "Months", (b + 30) - x, "Days")
-                else:
-                    speak("Enter a Valid Data")
-            elif z == d:
-                if x < b and y < c:
-                    print(b - x, "Days", c - y, "Months")
-                elif x < b and y > c:
-                    print(b - x, "Days", (c + 12) - y, "Months")
-                elif x > b and y > c:
-                    print((b + 30) - x, "Days", ((c + 12) - 1) - y, "Months")
-                elif x > b and y < c:
-                    print((b + 30) - x, "Days", (c - 1) - y, "Months")
-                else:
-                    speak("Enter a Valid Data")
-            else:
-                speak("Enter a Valid Data")
-
         elif 'like me' in query:
             like = ["Yes, I like you", "I like you well enough so far", "Of Course", "I don't hate you"]
             like_random = random.choice(like)
@@ -484,8 +448,7 @@ def TaskExecution():
                   "Search in Google/Bing/DuckDuckGo", "I can calculate", "Learn how to make or do something.",
                   "Switch Window", "Play news", "Tell you about interesting facts",
                   "Temperature of you current location", "Can take Screenshot", "Can find your location",
-                  "Shutdown/Restart Computer", "Horoscope", "Dictionary", "Age Calculator", "Zodiac Sign Calculator",
-                  "System Report"]
+                  "Shutdown/Restart Computer", "Horoscope", "Dictionary", "Zodiac Sign Calculator", "System Report"]
             for does in do:
                 speak(does)
 
@@ -574,7 +537,7 @@ def TaskExecution():
 if __name__ == "__main__":
     while True:
         permission = takecommand()
-        if 'wake up' in permission or 'wakeup' in permission:
+        if 'wake up' in permission or 'wakeup' in permission or 'alice' in permission:
             TaskExecution()
         elif 'goodbye' in permission or 'good bye' in permission:
             speak("Thanks for letting me help. Have a lovely day.")

@@ -30,6 +30,5 @@
 * Dictionary
   * Activate it by saying "open dictionary" and exit by saying "exit".
   
-* Age Calculator
 * Zodiac Sign Calculator
 * System Report
